@@ -10,14 +10,24 @@ interface IBoxStyle {
   isFullWidth?: boolean;
 }
 
-export interface BoxProps extends IBoxStyle, React.HTMLAttributes<HTMLDivElement> {
+export interface BoxProps
+  extends IBoxStyle,
+    React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
 }
 
 const Box = forwardRef<HTMLDivElement, BoxProps>(function Box(
-  { children, className, width = 0, height, backgroundColor = 'grey', borderRadius = 20, ...rest },
-  ref
+  {
+    children,
+    className,
+    width = 0,
+    height,
+    backgroundColor = 'grey',
+    borderRadius = 20,
+    ...rest
+  },
+  ref,
 ): ReactElement {
   return (
     <StyledBox
@@ -38,7 +48,8 @@ const StyledBox = styled.div<IBoxStyle>`
   width: ${({ isFullWidth, width }) => (isFullWidth ? '100%' : `${width}px`)};
   height: ${({ height }) => (height ? `${height}px` : 'auto')};
   border-radius: ${({ borderRadius }) => borderRadius}px;
-  background-color: ${({ backgroundColor }) => backgroundColor && theme.palette[backgroundColor]};
+  background-color: ${({ backgroundColor }) =>
+    backgroundColor && theme.palette[backgroundColor]};
 `;
 
 export default Box;

@@ -30,11 +30,13 @@ function Footer(): ReactElement {
             </YappEmail>
           </YappInfo>
           <InfoText>
-          <TextPoint>M</TextPoint>y<br></br>{' '}
-<TextPoint>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A</TextPoint>bility<br />{' '}
-<TextPoint>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S</TextPoint>hare
-
-
+            <TextPoint>M</TextPoint>y<br></br>{' '}
+            <TextPoint>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A</TextPoint>bility
+            <br />{' '}
+            <TextPoint>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S
+            </TextPoint>
+            hare
           </InfoText>
           <YappSocialButtonGroup>
             <SnsGroup />

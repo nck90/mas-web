@@ -25,8 +25,7 @@ export const RECRUIT_BANNER_ACTIVE = {
   buttonName: `${Yapp.YAPP_GENERATION}기 지원하기`,
 };
 
-export const NEXT_GENERATION_RECRUIT_LINK =
-  '구글 폼 작성'
+export const NEXT_GENERATION_RECRUIT_LINK = '구글 폼 작성';
 
 /** 모집 개요 */
 export const RECRUIT_OVERVIEW = {
@@ -107,10 +106,7 @@ export const RECRUIT_FAQ = {
 };
 
 /* 모집 분야 */
-export const RECRUIT_FIELD_NAMES: FieldNameTypes[] = [
-  '디자이너',
-  '개발자',
-];
+export const RECRUIT_FIELD_NAMES: FieldNameTypes[] = ['디자이너', '개발자'];
 
 export const RECRUIT_DEVELOPER_FIELD_NAMES: DeveloperFieldName[] = [
   'iOS',

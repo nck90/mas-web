@@ -21,5 +21,4 @@ export const HEADER_MENUS = [
     name: 'CONTACT',
     path: Path.Contact,
   },
-  
 ];

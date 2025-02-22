@@ -9,7 +9,6 @@ import media from 'styles/media';
 import { ProjectCardType, ProjectField } from 'types/project';
 import { getAllProjects } from 'utils/getAllProjects';
 
-
 export const getStaticProps: GetStaticProps = async () => {
   const projects = await getAllProjects();
 
@@ -73,7 +72,7 @@ function Project({ projects }: ProjectProps) {
       if (category === 'ALL') return true;
       if (Array.isArray(project.field)) {
         return project.field.some(
-          (field: string) => field.toUpperCase() === category.toUpperCase()
+          (field: string) => field.toUpperCase() === category.toUpperCase(),
         );
       }
       return (project.field as string).toUpperCase() === category.toUpperCase();
