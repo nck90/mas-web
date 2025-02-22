@@ -80,7 +80,7 @@ const TriggerButton = styled(Button)<{ visible: boolean }>`
   right: 48px;
   z-index: 10000;
   background: ${({ theme }) =>
-    `linear-gradient(208.15deg, ${theme.palette.blue_100} 12.08%, ${theme.palette.blue_100} 86.71%)`};
+    `linear-gradient(208.15deg, ${theme.palette.orange_400} 12.08%, ${theme.palette.orange_400} 86.71%)`};
 
   ${media.mobile} {
     width: 48px;

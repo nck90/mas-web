@@ -59,7 +59,7 @@ const StyledButton = styled.button<IButtonStyle>`
     color: ${theme.palette[fontColor]};
     background-color: ${theme.palette[buttonColor]};
     border: ${hasBorder ? '1px solid' : 'none'};
-    border-color: ${theme.palette[borderColor]}};
+    border-color: ${theme.palette[borderColor]};
   `};
 
   /* Text Style */

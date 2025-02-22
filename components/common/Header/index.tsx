@@ -98,7 +98,8 @@ const HeaderMenu = styled.div`
 const MenuText = styled.a<{ active: boolean }>`
   cursor: pointer;
   color: ${({ theme, active }) =>
-    active ? theme.palette.blue_100 : theme.palette.white};
+    active ? theme.palette.orange_300 : theme.palette.white};
+
   ${({ theme }) => theme.textStyle.web.Category};
 `;
 

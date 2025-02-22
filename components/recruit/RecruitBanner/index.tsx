@@ -8,7 +8,7 @@ import {
   RECRUIT_BANNER_ACTIVE,
 } from 'database/recruit';
 import DOMPurify from 'isomorphic-dompurify';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import media from 'styles/media';
 
 function RecruitBanner() {
@@ -46,31 +46,27 @@ function RecruitBanner() {
   );
 }
 
-const ButtonBlock = styled.a`
-  width: fit-content;
-  height: fit-content;
-  display: block;
-
-  ${media.xSmall} {
-    margin: 0 auto;
+const gradientAnimation = keyframes`
+  0% {
+    background-position: 0% 50%;
   }
-`;
-
-const ApplyButton = styled(Button)`
-  transition: all 0.5s;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.palette.grey_700};
+  50% {
+    background-position: 100% 50%;
   }
-  ${media.mobile} {
-    width: 162px;
-    height: 56px;
+  100% {
+    background-position: 0% 50%;
   }
 `;
 
 const RecruitBannerContainer = styled.div`
   width: 100%;
-  background-color: ${({ theme }) => theme.palette.blue_200};
+  background: radial-gradient(
+    circle,
+    rgba(252, 161, 125, 1),
+    rgba(252, 200, 125, 1)
+  );
+  background-size: 200% 200%;
+  animation: ${gradientAnimation} 5s ease infinite;
 `;
 
 const BannerInner = styled.div`
@@ -118,6 +114,28 @@ const BannerDescription = styled.div`
   ${media.mobile} {
     ${({ theme }) => theme.textStyle.mobile.Body_1}
     margin-bottom:32px;
+  }
+`;
+
+const ButtonBlock = styled.a`
+  width: fit-content;
+  height: fit-content;
+  display: block;
+
+  ${media.xSmall} {
+    margin: 0 auto;
+  }
+`;
+
+const ApplyButton = styled(Button)`
+  transition: all 0.5s;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.palette.grey_700};
+  }
+  ${media.mobile} {
+    width: 162px;
+    height: 56px;
   }
 `;
 

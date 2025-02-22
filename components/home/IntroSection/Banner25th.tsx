@@ -19,9 +19,9 @@ const Banner25th = () => {
           <YappSubTitleBox />
         </BannerTitleBox>
         <h3>
-          큐브를 완성할
+          마스와 함께할
           <br />
-          25기 야뿌를 찾습니다
+          5기 부원 찾습니다
         </h3>
         {/* <CubeBox /> */}
       </Banner24thTextContentBox>
@@ -116,7 +116,7 @@ const Banner24thTextContentBox = styled.div`
     font-weight: 700;
     line-height: 125%;
     letter-spacing: -0.07rem;
-    color: ${({ theme }) => theme.palette.white};
+    color: ${({ theme }) => theme.palette.black};
   }
   ${media.mobile} {
     & > h3 {

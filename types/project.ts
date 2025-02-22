@@ -1,4 +1,4 @@
-export type ProjectField = 'ALL' | 'Android' | 'iOS' | 'Web' | 'ML';
+export type ProjectField = 'ALL' | 'WEB' | 'IOS' | 'ANDROID' | 'ML';
 
 export interface Retrospect {
   name: string;

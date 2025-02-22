@@ -3,6 +3,7 @@ enum Path {
   Project = '/project',
   Recruit = '/recruit',
   Contact = '/contact',
+  Profile = '/profile',
 }
 
 export default Path;

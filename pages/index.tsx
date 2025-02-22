@@ -4,7 +4,6 @@ import {
   GridSection,
   NewsSection,
   ProjectSection,
-  SponsorSection,
 } from 'components/home';
 
 function Home(): ReactElement {
@@ -14,7 +13,6 @@ function Home(): ReactElement {
       <GridSection />
       <ProjectSection />
       <NewsSection />
-      <SponsorSection />
     </>
   );
 }

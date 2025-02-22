@@ -1,4 +1,4 @@
-export { default as SponsorSection } from './SponsorSection';
+
 export { default as SectionTemplate } from './SectionTemplate';
 export { default as AnimatedTextSection } from './AnimatedTextSection';
 export { default as GridSection } from './GridSection';

@@ -3,11 +3,12 @@ import Breakpoints from 'constants/breakpoints';
 import useSmoothScroll from 'hooks/useSmoothScroll';
 import useWindowDimensions from 'hooks/useWindowDimensions';
 import { GetStaticProps } from 'next';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import media from 'styles/media';
 import { ProjectCardType, ProjectField } from 'types/project';
 import { getAllProjects } from 'utils/getAllProjects';
+
 
 export const getStaticProps: GetStaticProps = async () => {
   const projects = await getAllProjects();
@@ -17,7 +18,7 @@ export const getStaticProps: GetStaticProps = async () => {
       title: project.name,
       thumbnail: project.thumbnail,
       tags: project.tags,
-      field: project.field,
+      field: project.field, // field가 배열일 수도, 문자열일 수도 있음
       generation: project.generation,
       url: slug.join('/'),
     };
@@ -39,9 +40,9 @@ export const getStaticProps: GetStaticProps = async () => {
 /* 프로젝트 분류 */
 export const PROJECT_CATEGORIES: ProjectField[] = [
   'ALL',
-  'iOS',
-  'Android',
-  'Web',
+  'WEB',
+  'IOS',
+  'ANDROID',
   'ML',
 ];
 
@@ -49,7 +50,7 @@ interface ProjectProps {
   projects: ProjectCardType[];
 }
 
-const INITIAL_CARD_COUNT = 9; // '기본' 카드 표현 수
+const INITIAL_CARD_COUNT = 9; // 기본 카드 표현 수
 const NEXT_CARD_COUNT = 6; // '더보기' 카드 표현 수
 
 function Project({ projects }: ProjectProps) {
@@ -66,8 +67,25 @@ function Project({ projects }: ProjectProps) {
       block: 'start',
     });
 
+  // 필터링 로직을 별도 변수로 정의
+  const filteredProjects = useMemo(() => {
+    return projects.filter((project) => {
+      if (category === 'ALL') return true;
+      if (Array.isArray(project.field)) {
+        return project.field.some(
+          (field: string) => field.toUpperCase() === category.toUpperCase()
+        );
+      }
+      return (project.field as string).toUpperCase() === category.toUpperCase();
+    });
+  }, [projects, category]);
+
+  const sortedProjects = useMemo(() => {
+    return filteredProjects.sort((a, b) => b.generation - a.generation);
+  }, [filteredProjects]);
+
   const handleMoreButtonClick = () => {
-    setViewCardCount(() => viewCardCount + NEXT_CARD_COUNT);
+    setViewCardCount((prev) => prev + NEXT_CARD_COUNT);
     setTimeout(() => {
       triggerContainerScroll();
     }, 100);
@@ -76,7 +94,7 @@ function Project({ projects }: ProjectProps) {
   useEffect(() => {
     setViewCardCount(INITIAL_CARD_COUNT);
     triggerCategoryScroll();
-  }, [category]);
+  }, [category, triggerCategoryScroll]);
 
   return (
     <ProjectWrapper>
@@ -84,7 +102,7 @@ function Project({ projects }: ProjectProps) {
         <ProjectTitleWrapper>
           기획부터 런칭까지,
           <br />
-          다양한 프로젝트를
+          다양한 프로젝트를&nbsp;
           {windowWidth <= Breakpoints.medium && <br />}
           경험해 보세요!
         </ProjectTitleWrapper>
@@ -107,23 +125,11 @@ function Project({ projects }: ProjectProps) {
           )}
         </CategoriesWrapper>
         <ProjectGridWrapper>
-          {projects
-            .filter((project) => {
-              // 현재 카테고리 필터링
-              if (category !== 'ALL') return project.field.includes(category);
-              else return true;
-            })
-            .sort((a, b) => b.generation - a.generation) // 기수 순 정렬
-            .slice(0, viewCardCount) // 기본 9개 카드 표현
-            .map((project) => (
-              <ProjectCard key={project.title} project={project} />
-            ))}
+          {sortedProjects.slice(0, viewCardCount).map((project) => (
+            <ProjectCard key={project.title} project={project} />
+          ))}
         </ProjectGridWrapper>
-        {projects.filter((project) => {
-          // 현재 카테고리 필터링
-          if (category !== 'ALL') return project.field.includes(category);
-          else return true;
-        }).length > viewCardCount && (
+        {sortedProjects.length > viewCardCount && (
           <ButtonWrapper>
             <StyledButton
               width={148}
@@ -205,7 +211,6 @@ const StyledButton = styled(Button)`
   &:hover {
     background-color: ${({ theme }) => theme.palette.grey_700};
   }
-
   ${media.mobile} {
     width: 162px;
     height: 56px;

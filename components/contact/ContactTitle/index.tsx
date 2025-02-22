@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import media from 'styles/media';
 
 function ContactTitle(): ReactElement {
-  return <TitleStyled>YAPP 문의</TitleStyled>;
+  return <TitleStyled>MAS 문의</TitleStyled>;
 }
 
 const TitleStyled = styled.h2`

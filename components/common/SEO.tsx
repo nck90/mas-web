@@ -6,7 +6,7 @@ const SEO = () => {
     <Head>
       {/* Default SEO */}
       <title>{metaData.title}</title>
-      <link rel="icon" href="/assets/images/favicon.png" />
+      <link rel="icon" href="/assets/icons/yapp_logo.svg" />
       <meta name="description" content={metaData.description} />
       <meta name="keywords" content={metaData.keywords} />
       <meta name="author" content={metaData.author} />

@@ -6,6 +6,10 @@ export const HEADER_MENUS = [
     path: Path.Home,
   },
   {
+    name: 'PROFILE',
+    path: Path.Profile,
+  },
+  {
     name: 'PROJECT',
     path: Path.Project,
   },
@@ -17,4 +21,5 @@ export const HEADER_MENUS = [
     name: 'CONTACT',
     path: Path.Contact,
   },
+  
 ];

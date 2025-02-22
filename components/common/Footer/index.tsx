@@ -30,9 +30,11 @@ function Footer(): ReactElement {
             </YappEmail>
           </YappInfo>
           <InfoText>
-            <TextPoint>Y</TextPoint>our own idea can change the{' '}
-            <TextPoint>A</TextPoint>ctual world at anytime <br /> with{' '}
-            <TextPoint>P</TextPoint>assion and <TextPoint>P</TextPoint>otential.
+          <TextPoint>M</TextPoint>y<br></br>{' '}
+<TextPoint>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A</TextPoint>bility<br />{' '}
+<TextPoint>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S</TextPoint>hare
+
+
           </InfoText>
           <YappSocialButtonGroup>
             <SnsGroup />

@@ -105,7 +105,7 @@ const AnimatedBackground = styled.span<
   }
 
   border-radius: 124px;
-  background-color: ${({ theme }) => theme.palette.blue_100};
+  background-color: ${({ theme }) => theme.palette.orange_300};
   transition: all 0.2s ease-in-out;
 `;
 
