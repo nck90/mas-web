@@ -2,15 +2,15 @@
 
 const metaData = {
   title: 'MAS',
-  sitename: '연합동아리 YAPP',
+  sitename: 'MAS',
   author: 'YAPP-admin',
   email: 'support@mas.co.kr',
-  description: '작은 아이디어로 세상을 크게 변화시키는 IT동아리, YAPP',
+  description: '미림마이스터고등학교 IT 동아리 MAS',
   keywords:
-    'YAPP, yapp, 동아리, 연합 동아리, IT 동아리, 개발 동아리, 대학교 동아리, 대학생 연합 동아리, 대외활동, 외부활동, 사이드 프로젝트, 개발, 개발자, 프론트엔드, 백엔드, 디자이너, PM',
+    'MAS, mas, 동아리, 연합 동아리, IT 동아리, 개발 동아리, 고등학교교 동아리, 미림마이스터고등학교, 미림마고, 대외활동, 외부활동, 사이드 프로젝트, 개발, 개발자, 프론트엔드, 백엔드, 디자이너, PM',
   type: 'website',
-  siteUrl: 'https://yapp.co.kr',
-  image: '/assets/images/og_25th.png',
+  siteUrl: 'https://mas-web-4th.vercel.app/',
+  image: '/assets/images/25th/banner-pc.png',
   locale: 'ko_KR',
   analytics: {
     google: 'G-MPQ55K4DB3',
