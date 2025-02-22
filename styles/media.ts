@@ -13,5 +13,5 @@ const media: Media = {
   desktop: mediaQuery(xlarge),
   custom: mediaQuery,
 };
-
+//ㅇ
 export default media;
