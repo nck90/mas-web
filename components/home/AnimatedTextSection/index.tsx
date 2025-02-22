@@ -1,3 +1,4 @@
+// AnimatedTextSection.tsx
 import { AnimatedButton } from 'components/common';
 import { SectionTemplate } from 'components/home';
 import Path from 'constants/path';
@@ -7,7 +8,6 @@ import {
   RECRUIT_BANNER,
   RECRUIT_BANNER_ACTIVE,
 } from 'database/recruit';
-import lottie from 'lottie-web';
 import { useRouter } from 'next/router';
 import type { ReactElement } from 'react';
 import { useEffect, useRef } from 'react';
@@ -22,13 +22,17 @@ function AnimatedTextSection(): ReactElement {
 
   const router = useRouter();
   useEffect(() => {
-    lottie.loadAnimation({
-      container: animatedTextRef.current as HTMLDivElement,
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      animationData: require('public/assets/lottie/motion.json'),
-    });
+    if (typeof window !== 'undefined') {
+      // lottie-web을 동적으로 require하여 클라이언트에서만 로드합니다.
+      const lottie = require('lottie-web');
+      lottie.loadAnimation({
+        container: animatedTextRef.current as HTMLDivElement,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: require('public/assets/lottie/motion.json'),
+      });
+    }
   }, []);
 
   return (
@@ -45,7 +49,6 @@ function AnimatedTextSection(): ReactElement {
             window.open(NEXT_GENERATION_RECRUIT_LINK, '_blank');
             return;
           }
-
           router.push(Path.Recruit);
         }}
         {...buttonParams}

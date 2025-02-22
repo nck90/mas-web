@@ -1,3 +1,4 @@
+// Custom404.tsx
 import styled from 'styled-components';
 import type { ReactElement } from 'react';
 import Image from 'next/image';
@@ -7,7 +8,7 @@ import { Button } from 'components/common';
 import Illust_404 from 'public/assets/images/illust_404.png';
 
 function Custom404(): ReactElement {
-  const Router = useRouter();
+  const router = useRouter();
 
   return (
     <Custom404Wrapper>
@@ -18,7 +19,12 @@ function Custom404(): ReactElement {
           </div>
         </TextContainer>
         <ImageContainer>
-          <Image src={Illust_404} layout="fill" objectFit="contain"></Image>
+          <Image
+            src={Illust_404}
+            layout="fill"
+            objectFit="contain"
+            alt="404 Illustration"
+          />
         </ImageContainer>
       </ContentContainer>
       <StyledButton
@@ -26,7 +32,7 @@ function Custom404(): ReactElement {
         height={65}
         fontColor="white"
         buttonColor="grey_850"
-        onClick={() => Router.push('/')}
+        onClick={() => router.push('/')}
       >
         홈으로 돌아가기
       </StyledButton>
