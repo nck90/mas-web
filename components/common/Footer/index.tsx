@@ -9,12 +9,16 @@ function Footer(): ReactElement {
   const {
     YAPP_NAME,
     YAPP_OFFICIAL_EMAIL,
-    YAPP_FACEBOOK,
-    YAPP_INSTAGRAM,
+    YAPP_OFFICIAL_FACEBOOK,
+    YAPP_OFFICIAL_INSTAGRAM,
     YAPP_GITHUB,
   } = Yapp;
 
-  const socialButtons = [YAPP_FACEBOOK, YAPP_INSTAGRAM, YAPP_GITHUB];
+  const socialButtons = [
+    YAPP_OFFICIAL_FACEBOOK,
+    YAPP_OFFICIAL_INSTAGRAM,
+    YAPP_GITHUB,
+  ];
 
   return (
     <>

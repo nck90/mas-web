@@ -69,7 +69,9 @@ function LayoutWrapper({ children }: LayoutWrapperProps) {
       <Header />
       <div ref={contentRef}>{children}</div>
       <Footer />
-      <FloatingButton />
+      <FloatingButton>
+        <></>
+      </FloatingButton>
     </div>
   );
 }

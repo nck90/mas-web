@@ -14,7 +14,11 @@ export default {
   argTypes: {},
 } as Meta;
 
-const Template: Story = (args) => <FloatingButton {...args} />;
+const Template: Story<{ children: React.ReactNode }> = (args) => (
+  <FloatingButton {...args} />
+);
 
 export const defaultFloatingButton = Template.bind({});
-defaultFloatingButton.args = {};
+defaultFloatingButton.args = {
+  children: <></>, // 기본 children을 빈 Fragment로 전달합니다.
+};

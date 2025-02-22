@@ -3,25 +3,23 @@ import styled from 'styled-components';
 import media from 'styles/media';
 
 function FloatingArrow() {
-  const [isHideArrow, setisHideArrow] = useState(false);
+  const [isHideArrow, setIsHideArrow] = useState(false);
 
-  const checkScroll = useCallback((e) => {
-    const scrollTop = e.target.scrollTop || 0;
-    if (scrollTop > 100) {
-      setisHideArrow(true);
-    } else {
-      setisHideArrow(false);
-    }
+  // 'e' 매개변수의 타입을 Event로 명시하고, window.scrollY를 사용하여 스크롤 위치를 확인합니다.
+  const checkScroll = useCallback((e: Event) => {
+    const scrollTop = window.scrollY || 0;
+    setIsHideArrow(scrollTop > 100);
   }, []);
+
   useEffect(() => {
     window.addEventListener('scroll', checkScroll, { capture: true });
     return () => window.removeEventListener('scroll', checkScroll);
-  }, []);
+  }, [checkScroll]);
 
   return (
     <>
       {!isHideArrow && (
-        <ArrowDownConatiner>
+        <ArrowDownContainer>
           <svg
             width="48"
             height="48"
@@ -37,14 +35,15 @@ function FloatingArrow() {
               strokeLinejoin="round"
             />
           </svg>
-        </ArrowDownConatiner>
+        </ArrowDownContainer>
       )}
     </>
   );
 }
+
 export default FloatingArrow;
 
-const ArrowDownConatiner = styled.div`
+const ArrowDownContainer = styled.div`
   position: fixed;
   bottom: 100px;
   left: 0px;

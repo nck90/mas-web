@@ -19,22 +19,24 @@ export interface CarouselProps {
   data: CarouselDataType[];
 }
 
+// react-slick의 Slider를 any로 캐스팅하여 JSX 구성 요소로 사용
+const TypedSlider = Slider as any;
+
 function Carousel({ data }: CarouselProps) {
   const slickRef = useRef<Slider>(null);
   const settings = useMemo<Settings>(
     () => ({
-      dots: true, // 캐러셀 하단부 점으로 한번에 이동
-      arrows: true, // 캐러셀을 움직이는 화살표 추가
-      centerMode: true, // 중앙 정렬
-      centerPadding: '220px', // 좌 우 카드가 padding 만큼 삐져나오게 함
-      slidesToShow: 3, // 한번에 보여줄 슬라이드 수
-      infinite: true, // 무한 루프
-      arrow: false, // 좌 우 화살표
-      autoplay: true, // 자동재생
-      speed: 800, // 슬라이더 속도
-      pauseOnHover: true, // Hover시 멈춤
-      draggable: true, // 드래그 가능
-      // 반응형, 현재는 임시 구현
+      dots: true,
+      arrows: true,
+      centerMode: true,
+      centerPadding: '220px',
+      slidesToShow: 3,
+      infinite: true,
+      arrow: false,
+      autoplay: true,
+      speed: 800,
+      pauseOnHover: true,
+      draggable: true,
       responsive: [
         {
           breakpoint: Breakpoints.small,
@@ -52,9 +54,9 @@ function Carousel({ data }: CarouselProps) {
 
   return (
     <CarouselContainer>
-      <Slider ref={slickRef} {...settings}>
-        {data.map(({ title, link, image }: any, index: number) => (
-          <Link href={link} key={index}>
+      <TypedSlider ref={slickRef} {...settings}>
+        {data.map(({ title, link, image }, index) => (
+          <Link href={link} key={index} passHref>
             <ProjectCard className="project-card">
               <Image
                 src={image}
@@ -67,7 +69,7 @@ function Carousel({ data }: CarouselProps) {
             </ProjectCard>
           </Link>
         ))}
-      </Slider>
+      </TypedSlider>
       <>
         <Arrow left onClick={handlePrevious}>
           <ArrowLeft />
@@ -90,7 +92,6 @@ const CarouselContainer = styled.div`
   margin: 10px 0 64px;
   overflow: hidden;
 
-  // Carousel Container
   .slick-slide {
     height: 400px;
   }
@@ -105,7 +106,6 @@ const CarouselContainer = styled.div`
     transition: transform 1.5s;
   }
 
-  // Carousel 중앙 요소
   .slick-center.slick-active {
     transform: scale(1.2);
 
@@ -114,7 +114,6 @@ const CarouselContainer = styled.div`
     }
   }
 
-  // Dots
   .slick-dots {
     padding-bottom: 20px;
     button::before {
@@ -136,7 +135,6 @@ const CarouselContainer = styled.div`
 const ProjectCard = styled.div`
   position: relative;
   display: block;
-  position: relative;
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;

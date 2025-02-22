@@ -11,13 +11,13 @@ export interface AnimatedBoxProps {
 }
 
 function AnimatedBox({ children, className }: AnimatedBoxProps): ReactElement {
-  const animatedDivRef = useRef(null);
+  const animatedDivRef = useRef<HTMLDivElement>(null);
   const [isIntersect, setIsIntersect] = useState(false);
 
   const handleIntersect: IntersectionObserverCallback = useCallback(
     ([entry], observer) => {
       if (entry.isIntersecting && animatedDivRef.current) {
-        observer.unobserve(animatedDivRef.current); // 한번 observe된 ref 풀기
+        observer.unobserve(animatedDivRef.current);
         setIsIntersect(true);
       }
     },
@@ -25,18 +25,17 @@ function AnimatedBox({ children, className }: AnimatedBoxProps): ReactElement {
   );
 
   const styles = useSpring({
-    config: { mass: 200, tension: 1500, friction: 1000 }, // 질량, 장력, 마찰력
-    from: { opacity: 0, y: 50 }, // 처음 위치
-    to: isIntersect && { opacity: 1, y: 0 }, // 이벤트 시작시 해당 값까지 애니메이션
+    config: { mass: 200, tension: 1500, friction: 1000 },
+    from: { opacity: 0, y: 50 },
+    to: isIntersect ? { opacity: 1, y: 0 } : {},
   });
 
   useEffect(() => {
     let observer: IntersectionObserver;
     if (animatedDivRef.current) {
-      observer = new IntersectionObserver(handleIntersect, { threshold: 0.3 }); // 이벤트 부여
-      observer.observe(animatedDivRef.current); // observe 시작
+      observer = new IntersectionObserver(handleIntersect, { threshold: 0.3 });
+      observer.observe(animatedDivRef.current);
     }
-
     return () => observer && observer.disconnect();
   }, [handleIntersect]);
 
@@ -57,7 +56,15 @@ function AnimatedBox({ children, className }: AnimatedBoxProps): ReactElement {
 
 export default AnimatedBox;
 
-const StyledBox = styled(Box)`
+/*
+  Box의 props에서 'key' 속성을 제거하여 타입 충돌을 회피합니다.
+  BoxWrapper는 Box의 props에서 key를 제외한 타입(BoxPropsOmitKey)을 사용합니다.
+*/
+type BoxPropsOmitKey = Omit<React.ComponentProps<typeof Box>, 'key'>;
+
+const BoxWrapper = (props: BoxPropsOmitKey) => <Box {...props} />;
+
+const StyledBox = styled((props: BoxPropsOmitKey) => <BoxWrapper {...props} />)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -72,7 +79,7 @@ const StyledBox = styled(Box)`
     ${({ theme }) => theme.textStyle.web.Subtitle};
   }
   .content-text {
-    ${({ theme }) => theme.textStyle.web.Head}
+    ${({ theme }) => theme.textStyle.web.Head};
   }
 
   ${media.mobile} {
@@ -80,10 +87,10 @@ const StyledBox = styled(Box)`
     height: 220px;
 
     .title-text {
-      ${({ theme }) => theme.textStyle.mobile.Subtitle}
+      ${({ theme }) => theme.textStyle.mobile.Subtitle};
     }
     .content-text {
-      ${({ theme }) => theme.textStyle.mobile.Head}
+      ${({ theme }) => theme.textStyle.mobile.Head};
     }
   }
 `;
