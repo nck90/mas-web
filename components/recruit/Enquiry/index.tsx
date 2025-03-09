@@ -18,7 +18,11 @@ function Enquiry(): ReactElement {
           className="enquiryTitle"
         />
         <EnquiryContent dangerouslySetInnerHTML={{ __html: description }} />
-        <ButtonLinked target="_blank" href={Yapp.YAPP_KAKAO} rel="noreferrer">
+        <ButtonLinked
+          target="_blank"
+          href="https://www.instagram.com/mas_mirim/"
+          rel="noreferrer"
+        >
           <EnquiryButton
             width={148}
             height={65}
@@ -36,7 +40,7 @@ function Enquiry(): ReactElement {
 
 const EnquiryBlock = styled.div`
   width: 100%;
-  background-color: ${({ theme }) => theme.palette.grey_850}; // @Todo 임시 컬러
+  background-color: ${({ theme }) => theme.palette.grey_850};
   color: ${({ theme }) => theme.palette.white};
 `;
 

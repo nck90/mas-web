@@ -58,14 +58,15 @@ function Footer(): ReactElement {
           </YappSocialButtonGroup>
         </FooterInner>
       </FooterBlock>
-      <Copyright>Copyright © YAPP All Rights Reserved.</Copyright>
+      <Copyright>Copyright © MAS All Rights Reserved.</Copyright>
     </>
   );
 }
 
 const FooterBlock = styled.div`
   width: 100%;
-  height: 336px;
+  /* 고정 높이 대신 내용에 따라 자동 조절되도록 */
+  padding: 40px 0;
   background-color: ${({ theme }) => theme.palette.grey_900};
   color: ${({ theme }) => theme.palette.white};
 `;

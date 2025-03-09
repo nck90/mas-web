@@ -26,9 +26,7 @@ function RecruitBanner() {
         />
         <ButtonBlock
           target="_blank"
-          href={
-            IS_RECRUITING ? Yapp.YAPP_RECRUIT_ALL : NEXT_GENERATION_RECRUIT_LINK
-          }
+          href="https://docs.google.com/forms/d/e/1FAIpQLSclEn1FB5iNiRxFy8RUpR9KvtbWPmGUwocaKgZOINxYemb3UQ/viewform?usp=sharing"
           rel="noreferrer"
         >
           <ApplyButton
@@ -38,7 +36,7 @@ function RecruitBanner() {
             buttonColor="grey_850"
             borderColor="lightGrey"
           >
-            {IS_RECRUITING ? '모든 공고 보기' : '지원마감'}
+            지원하기
           </ApplyButton>
         </ButtonBlock>
       </BannerInner>
@@ -87,7 +85,6 @@ const BannerInner = styled.div`
       display: none;
     }
   }
-
   ${media.custom(420)} {
     .mobile {
       display: block;
@@ -121,7 +118,6 @@ const ButtonBlock = styled.a`
   width: fit-content;
   height: fit-content;
   display: block;
-
   ${media.xSmall} {
     margin: 0 auto;
   }
@@ -129,7 +125,6 @@ const ButtonBlock = styled.a`
 
 const ApplyButton = styled(Button)`
   transition: all 0.5s;
-
   &:hover {
     background-color: ${({ theme }) => theme.palette.grey_700};
   }

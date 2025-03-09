@@ -55,18 +55,6 @@ function RecruitFieldExplain({
         </FieldBoxInner>
       </FieldBox>
 
-      <FieldBox backgroundColor="grey_50">
-        <FieldBoxInner>
-          <SubTitleStyled>
-            이런 경험이 있으면
-            <br /> 더 좋습니다 😊
-          </SubTitleStyled>
-          <ContentStyled
-            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content3) }}
-          />
-        </FieldBoxInner>
-      </FieldBox>
-
       <ButtonBlock
         target="_blank"
         href={getRecruitLink(isDeveloper ? developField : fieldName)}
@@ -80,8 +68,7 @@ function RecruitFieldExplain({
           borderColor="lightGrey"
           disabled={!IS_RECRUITING}
         >
-          {isDeveloper ? developField : fieldName}{' '}
-          {IS_RECRUITING ? '지원하기' : '지원마감'}
+          {isDeveloper ? developField : fieldName} 지원하기
         </ApplyButton>
       </ButtonBlock>
     </RecruitFieldWrapper>
