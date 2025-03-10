@@ -14,7 +14,7 @@ interface RecruitFieldExplainProps {
   explainContents: {
     content1: string;
     content2: string;
-    content3: string;
+    content3?: string;
   };
   isDeveloper?: boolean;
   developField?: DeveloperFieldName;
@@ -26,7 +26,7 @@ function RecruitFieldExplain({
   isDeveloper,
   developField,
 }: RecruitFieldExplainProps): ReactElement {
-  const { content1, content2, content3 } = explainContents;
+  const { content1, content2 } = explainContents;
 
   return (
     <RecruitFieldWrapper>

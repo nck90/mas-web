@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import { BubbleMenu, TabMenu } from 'components/common';
+import styled, { css } from 'styled-components';
 import Breakpoints from 'constants/breakpoints';
 import useWindowDimensions from 'hooks/useWindowDimensions';
-import styled from 'styled-components';
 import media from 'styles/media';
+import { PaletteKeyTypes } from 'styles/theme';
+
+// -----------------
+// 타입 정의
+// -----------------
+type FieldNameTypes = '1기' | '2기' | '3기' | '4기' | '5기';
 
 type Member = {
   name: string;
@@ -12,15 +17,174 @@ type Member = {
   hashtag: string[];
 };
 
-const membersData: Record<string, Member[]> = {
-  '1기': [
-    { name: '', image: '/img/.png', department: 'sw', hashtag: [] },
-    { name: '', image: '/img/.png', department: 'sw', hashtag: [] },
-    { name: '', image: '/img/.png', department: 'sw', hashtag: [] },
-    { name: '', image: '/img/.png', department: 'sw', hashtag: [] },
-    { name: '', image: '/img/.png', department: 'de', hashtag: [] },
-    { name: '', image: '/img/.png', department: 'de', hashtag: [] },
-  ],
+interface TabMenuProps {
+  className?: string;
+  tabs: FieldNameTypes[];
+  currentTab: FieldNameTypes;
+  onClick: (tab: FieldNameTypes) => void;
+  backgroundColor?: PaletteKeyTypes;
+}
+
+interface BubbleMenuProps {
+  className?: string;
+  tabs: FieldNameTypes[];
+  currentTab: FieldNameTypes;
+  onClick: (tab: FieldNameTypes) => void;
+  backgroundColor?: PaletteKeyTypes;
+}
+
+// -----------------
+// 인라인 TabMenu 구현
+// -----------------
+const InlineTabMenu: React.FC<TabMenuProps> = ({
+  className,
+  tabs,
+  currentTab,
+  onClick,
+  backgroundColor = 'grey_100',
+}) => {
+  return (
+    <TabMenuContainer className={className} backgroundColor={backgroundColor}>
+      {tabs.map((tab) => (
+        <TabMenuButton
+          key={`field-${tab}`}
+          onClick={() => onClick(tab)}
+          isActive={currentTab === tab}
+        >
+          {tab}
+        </TabMenuButton>
+      ))}
+      <AnimatedBackground tabs={tabs} currentTab={currentTab} />
+    </TabMenuContainer>
+  );
+};
+
+const TabMenuContainer = styled.div<{ backgroundColor?: PaletteKeyTypes }>`
+  display: inline-flex;
+  position: relative;
+  height: 64px;
+  ${media.mobile} {
+    height: 43px;
+  }
+  border-radius: 124px;
+  background-color: ${({ theme, backgroundColor }) =>
+    backgroundColor && theme.palette[backgroundColor]};
+`;
+
+const TabMenuButton = styled.div<{ isActive: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 196px;
+  height: inherit;
+  ${media.tablet} {
+    min-width: 164px;
+  }
+  ${media.mobile} {
+    min-width: 95px;
+    ${({ theme }) => theme.textStyle.mobile.Body_Point2};
+  }
+  ${({ theme }) => theme.textStyle.web.Subtitle};
+  ${({ isActive, theme }) =>
+    isActive
+      ? css`
+          color: ${theme.palette.white};
+        `
+      : css`
+          color: ${theme.palette.grey_700};
+        `}
+  cursor: pointer;
+  z-index: 100;
+`;
+
+const AnimatedBackground = styled.span<
+  Pick<TabMenuProps, 'tabs' | 'currentTab'>
+>`
+  position: absolute;
+  top: 0;
+  left: ${({ tabs, currentTab }) => tabs.indexOf(currentTab) * 196}px;
+  ${media.tablet} {
+    left: ${({ tabs, currentTab }) => tabs.indexOf(currentTab) * 164}px;
+  }
+  ${media.mobile} {
+    left: ${({ tabs, currentTab }) => tabs.indexOf(currentTab) * 95}px;
+  }
+  width: 196px;
+  height: inherit;
+  ${media.tablet} {
+    width: 164px;
+  }
+  ${media.mobile} {
+    width: 95px;
+  }
+  border-radius: 124px;
+  background-color: ${({ theme }) => theme.palette.orange_300};
+  transition: all 0.2s ease-in-out;
+`;
+
+// -----------------
+// 인라인 BubbleMenu 구현 (ButtonMenu와 유사)
+// -----------------
+const InlineBubbleMenu: React.FC<BubbleMenuProps> = ({
+  className,
+  tabs,
+  currentTab,
+  onClick,
+  backgroundColor = 'grey_100',
+}) => {
+  return (
+    <BubbleMenuContainer
+      className={className}
+      backgroundColor={backgroundColor}
+    >
+      {tabs.map((tab) => (
+        <BubbleMenuButton
+          key={`field-${tab}`}
+          onClick={() => onClick(tab)}
+          isActive={currentTab === tab}
+        >
+          {tab}
+        </BubbleMenuButton>
+      ))}
+    </BubbleMenuContainer>
+  );
+};
+
+const BubbleMenuContainer = styled.div<{ backgroundColor?: PaletteKeyTypes }>`
+  display: flex;
+  overflow-x: auto;
+  background-color: ${({ theme, backgroundColor }) =>
+    backgroundColor && theme.palette[backgroundColor]};
+`;
+
+const BubbleMenuButton = styled.div<{ isActive: boolean }>`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 60px;
+  padding: 12px 20px;
+  margin: 0 4px;
+  cursor: pointer;
+  z-index: 100;
+  ${({ theme }) => theme.textStyle.mobile.Body_Point2};
+  transition: all 0.5s;
+  ${({ isActive, theme }) =>
+    isActive
+      ? css`
+          color: ${theme.palette.white};
+          background-color: ${theme.palette.orange_400};
+        `
+      : css`
+          color: ${theme.palette.black};
+          background-color: ${theme.palette.white};
+        `}
+`;
+
+// -----------------
+// Profile 컴포넌트
+// -----------------
+const membersData: Record<FieldNameTypes, Member[]> = {
+  '1기': [],
   '2기': [],
   '3기': [
     {
@@ -61,7 +225,7 @@ const membersData: Record<string, Member[]> = {
     },
     {
       name: '이경민',
-      image: 'img/gyeongmin.png',
+      image: '/img/gyeongmin.png',
       department: 'de',
       hashtag: ['ENTP', '친구같은 선배', '프로고민상담러'],
     },
@@ -132,20 +296,30 @@ const membersData: Record<string, Member[]> = {
       hashtag: ['INTP', '현실적', '극 T', '제5인격', '영어 잘함', '용인 Girl'],
     },
   ],
-  '5기': [
-    { name: '', image: '/img/.png', department: 'sw', hashtag: [] },
-    { name: '', image: '/img/.png', department: 'sw', hashtag: [] },
-    { name: '', image: '/img/.png', department: 'sw', hashtag: [] },
-    { name: '', image: '/img/.png', department: 'sw', hashtag: [] },
-    { name: '', image: '/img/.png', department: 'de', hashtag: [] },
-    { name: '', image: '/img/.png', department: 'de', hashtag: [] },
-  ],
+  '5기': [],
 };
 
 const Profile = () => {
-  const [selectedGen, setSelectedGen] =
-    useState<keyof typeof membersData>('4기');
+  // 데이터가 있는 기수만 추출
+  const availableGens = Object.entries(membersData)
+    .filter(([_, members]) => members.length > 0)
+    .map(([gen]) => gen) as FieldNameTypes[];
+
+  const defaultGen =
+    availableGens.length > 0 ? availableGens[availableGens.length - 1] : '4기';
+  const [selectedGen, setSelectedGen] = useState<FieldNameTypes>(defaultGen);
   const { windowWidth } = useWindowDimensions();
+
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>,
+  ) => {
+    const target = e.target as HTMLImageElement;
+    target.src = '/img/profile-placeholder.png';
+    target.onerror = null;
+  };
+
+  // Object.keys(membersData)를 FieldNameTypes[]로 단언
+  const tabs = Object.keys(membersData) as FieldNameTypes[];
 
   return (
     <ProfilePageWrapper>
@@ -155,48 +329,54 @@ const Profile = () => {
       <Container>
         <MenuWrapper>
           {windowWidth > Breakpoints.medium ? (
-            <TabMenu
-              tabs={Object.keys(membersData)}
+            <InlineTabMenu
+              tabs={tabs}
               currentTab={selectedGen}
-              onClick={(tab: string) =>
-                setSelectedGen(tab as keyof typeof membersData)
-              }
+              onClick={(tab) => setSelectedGen(tab)}
               backgroundColor="white"
             />
           ) : (
-            <BubbleMenu
-              className="scroll-none"
-              tabs={Object.keys(membersData)}
+            <InlineBubbleMenu
+              tabs={tabs}
               currentTab={selectedGen}
-              onClick={(tab: string) =>
-                setSelectedGen(tab as keyof typeof membersData)
-              }
+              onClick={(tab) => setSelectedGen(tab)}
               backgroundColor="white"
+              className="scroll-none"
             />
           )}
         </MenuWrapper>
 
-        <MembersGrid>
-          {membersData[selectedGen].map((member, index) => (
-            <MemberCard key={index}>
-              <MemberImg src={member.image} alt={member.name} />
-              <MemberInfo>
-                <MemberName>{member.name}</MemberName>
-                <MemberInfoText>
-                  {member.hashtag.map((tag, idx) =>
-                    idx > 0 && idx % 3 === 0 ? (
-                      <span key={idx}>
-                        <br />#{tag}{' '}
-                      </span>
-                    ) : (
-                      <span key={idx}> #{tag} </span>
-                    ),
-                  )}
-                </MemberInfoText>
-              </MemberInfo>
-            </MemberCard>
-          ))}
-        </MembersGrid>
+        {membersData[selectedGen].length > 0 ? (
+          <MembersGrid>
+            {membersData[selectedGen].map((member, index) => (
+              <MemberCard key={index}>
+                <MemberImg
+                  src={member.image}
+                  alt={member.name || '멤버'}
+                  onError={handleImageError}
+                />
+                <MemberInfo>
+                  <MemberName>{member.name}</MemberName>
+                  <MemberInfoText>
+                    {member.hashtag.map((tag, idx) =>
+                      idx > 0 && idx % 3 === 0 ? (
+                        <span key={idx}>
+                          <br />#{tag}{' '}
+                        </span>
+                      ) : (
+                        <span key={idx}> #{tag} </span>
+                      ),
+                    )}
+                  </MemberInfoText>
+                </MemberInfo>
+              </MemberCard>
+            ))}
+          </MembersGrid>
+        ) : (
+          <EmptyState>
+            <EmptyMessage>아직 정보가 업데이트되지 않았습니다.</EmptyMessage>
+          </EmptyState>
+        )}
       </Container>
     </ProfilePageWrapper>
   );
@@ -204,9 +384,9 @@ const Profile = () => {
 
 export default Profile;
 
-// ---------------------------
-// styled-components
-// ---------------------------
+// -----------------
+// styled-components (Profile 페이지 공통 스타일)
+// -----------------
 const ProfilePageWrapper = styled.div`
   background-color: #f1f1f1;
   min-height: 100vh;
@@ -239,36 +419,46 @@ const MenuWrapper = styled.div`
   display: flex;
   justify-content: center;
   padding: 20px 0;
+  width: 100%;
+  overflow-x: auto;
 `;
 
 const MembersGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2%;
+  gap: 30px;
   margin-top: 64px;
-  max-width: 60%;
   width: 100%;
+  max-width: 1200px;
   justify-content: center;
   justify-items: center;
   margin-left: auto;
   margin-right: auto;
-
+  padding: 0 20px;
   ${media.tablet} {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
   ${media.mobile} {
     grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+    margin-top: 40px;
   }
 `;
 
 const MemberCard = styled.div`
   display: flex;
-  width: 380px;
+  width: 100%;
+  max-width: 380px;
   height: 425px;
   position: relative;
   overflow: hidden;
   align-items: flex-end;
   border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  ${media.mobile} {
+    height: 350px;
+  }
 `;
 
 const MemberImg = styled.img`
@@ -279,6 +469,10 @@ const MemberImg = styled.img`
   top: 0;
   left: 0;
   z-index: 0;
+  transition: transform 0.3s ease;
+  ${MemberCard}:hover & {
+    transform: scale(1.05);
+  }
 `;
 
 const MemberInfo = styled.div`
@@ -288,8 +482,13 @@ const MemberInfo = styled.div`
   width: 100%;
   height: 100%;
   z-index: 1;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 10% 0% 4% 8%;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  padding: 10% 8% 8% 8%;
   text-align: left;
   color: #fff;
   font-family: Pretendard, sans-serif;
@@ -302,7 +501,10 @@ const MemberName = styled.h3`
   color: #fff;
   font-size: 24px;
   font-weight: 700;
-  margin-bottom: 2%;
+  margin-bottom: 10px;
+  ${media.mobile} {
+    font-size: 20px;
+  }
 `;
 
 const MemberInfoText = styled.p`
@@ -310,4 +512,22 @@ const MemberInfoText = styled.p`
   font-size: 18px;
   font-weight: 500;
   margin-top: 0;
+  ${media.mobile} {
+    font-size: 16px;
+  }
+`;
+
+const EmptyState = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  width: 100%;
+  margin-top: 64px;
+`;
+
+const EmptyMessage = styled.p`
+  font-size: 20px;
+  color: #666;
+  text-align: center;
 `;

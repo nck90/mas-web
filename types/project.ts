@@ -2,7 +2,7 @@ export type ProjectField = 'ALL' | 'WEB' | 'IOS' | 'ANDROID' | 'ML';
 
 export interface Retrospect {
   name: string;
-  field: string;
+  field: ProjectField; // string에서 ProjectField로 수정
   content: string;
 }
 
@@ -18,9 +18,9 @@ export interface Project {
   program: string[] | null;
   retrospects: Retrospect[];
   deployLink?: string | null;
-  playStoreLink?: string;
-  linkTreeLink?: string;
-  webLink?: string;
+  playStoreLink?: string | null;
+  linkTreeLink?: string | null;
+  webLink?: string | null;
   description: string;
 }
 
