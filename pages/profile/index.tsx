@@ -34,7 +34,7 @@ interface BubbleMenuProps {
 }
 
 // -----------------
-// 인라인 TabMenu 구현
+// 인라인 TabMenu 구현 (transient props 사용)
 // -----------------
 const InlineTabMenu: React.FC<TabMenuProps> = ({
   className,
@@ -44,22 +44,22 @@ const InlineTabMenu: React.FC<TabMenuProps> = ({
   backgroundColor = 'grey_100',
 }) => {
   return (
-    <TabMenuContainer className={className} backgroundColor={backgroundColor}>
+    <TabMenuContainer $backgroundColor={backgroundColor} className={className}>
       {tabs.map((tab) => (
         <TabMenuButton
           key={`field-${tab}`}
           onClick={() => onClick(tab)}
-          isActive={currentTab === tab}
+          $isActive={currentTab === tab}
         >
           {tab}
         </TabMenuButton>
       ))}
-      <AnimatedBackground tabs={tabs} currentTab={currentTab} />
+      <AnimatedBackground $tabs={tabs} $currentTab={currentTab} />
     </TabMenuContainer>
   );
 };
 
-const TabMenuContainer = styled.div<{ backgroundColor?: PaletteKeyTypes }>`
+const TabMenuContainer = styled.div<{ $backgroundColor?: PaletteKeyTypes }>`
   display: inline-flex;
   position: relative;
   height: 64px;
@@ -67,11 +67,11 @@ const TabMenuContainer = styled.div<{ backgroundColor?: PaletteKeyTypes }>`
     height: 43px;
   }
   border-radius: 124px;
-  background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor && theme.palette[backgroundColor]};
+  background-color: ${({ theme, $backgroundColor }) =>
+    $backgroundColor && theme.palette[$backgroundColor]};
 `;
 
-const TabMenuButton = styled.div<{ isActive: boolean }>`
+const TabMenuButton = styled.div<{ $isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,8 +85,8 @@ const TabMenuButton = styled.div<{ isActive: boolean }>`
     ${({ theme }) => theme.textStyle.mobile.Body_Point2};
   }
   ${({ theme }) => theme.textStyle.web.Subtitle};
-  ${({ isActive, theme }) =>
-    isActive
+  ${({ $isActive, theme }) =>
+    $isActive
       ? css`
           color: ${theme.palette.white};
         `
@@ -97,17 +97,18 @@ const TabMenuButton = styled.div<{ isActive: boolean }>`
   z-index: 100;
 `;
 
-const AnimatedBackground = styled.span<
-  Pick<TabMenuProps, 'tabs' | 'currentTab'>
->`
+const AnimatedBackground = styled.span<{
+  $tabs: FieldNameTypes[];
+  $currentTab: FieldNameTypes;
+}>`
   position: absolute;
   top: 0;
-  left: ${({ tabs, currentTab }) => tabs.indexOf(currentTab) * 196}px;
+  left: ${({ $tabs, $currentTab }) => $tabs.indexOf($currentTab) * 196}px;
   ${media.tablet} {
-    left: ${({ tabs, currentTab }) => tabs.indexOf(currentTab) * 164}px;
+    left: ${({ $tabs, $currentTab }) => $tabs.indexOf($currentTab) * 164}px;
   }
   ${media.mobile} {
-    left: ${({ tabs, currentTab }) => tabs.indexOf(currentTab) * 95}px;
+    left: ${({ $tabs, $currentTab }) => $tabs.indexOf($currentTab) * 95}px;
   }
   width: 196px;
   height: inherit;
@@ -123,7 +124,7 @@ const AnimatedBackground = styled.span<
 `;
 
 // -----------------
-// 인라인 BubbleMenu 구현 (ButtonMenu와 유사)
+// 인라인 BubbleMenu 구현 (transient props 사용)
 // -----------------
 const InlineBubbleMenu: React.FC<BubbleMenuProps> = ({
   className,
@@ -134,14 +135,14 @@ const InlineBubbleMenu: React.FC<BubbleMenuProps> = ({
 }) => {
   return (
     <BubbleMenuContainer
+      $backgroundColor={backgroundColor}
       className={className}
-      backgroundColor={backgroundColor}
     >
       {tabs.map((tab) => (
         <BubbleMenuButton
           key={`field-${tab}`}
           onClick={() => onClick(tab)}
-          isActive={currentTab === tab}
+          $isActive={currentTab === tab}
         >
           {tab}
         </BubbleMenuButton>
@@ -150,14 +151,14 @@ const InlineBubbleMenu: React.FC<BubbleMenuProps> = ({
   );
 };
 
-const BubbleMenuContainer = styled.div<{ backgroundColor?: PaletteKeyTypes }>`
+const BubbleMenuContainer = styled.div<{ $backgroundColor?: PaletteKeyTypes }>`
   display: flex;
   overflow-x: auto;
-  background-color: ${({ theme, backgroundColor }) =>
-    backgroundColor && theme.palette[backgroundColor]};
+  background-color: ${({ theme, $backgroundColor }) =>
+    $backgroundColor && theme.palette[$backgroundColor]};
 `;
 
-const BubbleMenuButton = styled.div<{ isActive: boolean }>`
+const BubbleMenuButton = styled.div<{ $isActive: boolean }>`
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -168,8 +169,8 @@ const BubbleMenuButton = styled.div<{ isActive: boolean }>`
   z-index: 100;
   ${({ theme }) => theme.textStyle.mobile.Body_Point2};
   transition: all 0.5s;
-  ${({ isActive, theme }) =>
-    isActive
+  ${({ $isActive, theme }) =>
+    $isActive
       ? css`
           color: ${theme.palette.white};
           background-color: ${theme.palette.orange_400};
@@ -318,7 +319,6 @@ const Profile = () => {
     target.onerror = null;
   };
 
-  // Object.keys(membersData)를 FieldNameTypes[]로 단언
   const tabs = Object.keys(membersData) as FieldNameTypes[];
 
   return (
