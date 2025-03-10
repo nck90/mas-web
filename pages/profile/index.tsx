@@ -323,9 +323,6 @@ const Profile = () => {
 
   return (
     <ProfilePageWrapper>
-      <TopPanel>
-        <Logo>MAS</Logo>
-      </TopPanel>
       <Container>
         <MenuWrapper>
           {windowWidth > Breakpoints.medium ? (
